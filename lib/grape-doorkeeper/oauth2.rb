@@ -25,6 +25,8 @@ module GrapeDoorkeeper
 
     def verify_token(token_string)
       return unless protected_endpoint?
+
+      error_out(401, 'empty_token') unless token_string
       token = Doorkeeper::AccessToken.authenticate(token_string.to_s)
       doorkeeper = options[:doorkeeper]
       if env['api.endpoint'].options[:route_options].key?(:scopes)
